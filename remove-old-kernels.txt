@@ -1,0 +1,45 @@
+You need to make sure you clear off enough space to work with. You may only have 3 kernels left.
+
+mkdir -p /work/trash
+mv *4.4.0-12* /work/trash/
+sudo apt-get -f install
+
+sudo apt-get autoremove
+sudo update-grub
+sudo apt-get update
+
+ref: https://gist.github.com/ipbastola/2760cfc28be62a5ee10036851c654600
+
+
+
+
+List 
+sudo dpkg --list 'linux-image*'|awk '{ if ($1=="ii") print $2}'|grep -v `uname -r`
+
+
+linux-image-3.19.0-25-generic
+linux-image-3.19.0-56-generic
+linux-image-3.19.0-58-generic
+linux-image-3.19.0-59-generic
+linux-image-3.19.0-61-generic
+linux-image-3.19.0-65-generic
+linux-image-extra-3.19.0-25-generic
+linux-image-extra-3.19.0-56-generic
+linux-image-extra-3.19.0-58-generic
+linux-image-extra-3.19.0-59-generic
+linux-image-extra-3.19.0-61-generic
+
+2. Prepare Delete
+Craft a command to delete all files in /boot for kernels that don't matter to you using brace expansion to keep you sane. Remember to exclude the current and two newest kernel images. From above Example, it's
+
+sudo rm -rf /boot/*-3.19.0-{25,56,58,59,61,65}-*
+3. Clean up apt
+sudo apt-get -f install
+4. Autoremove
+Finally, autoremove to clear out the old kernel image packages that have been orphaned by the manual boot clean.
+
+sudo apt-get autoremove
+5. Update Grub
+sudo update-grub
+6. Now you can update, install packages
+sudo apt-get update
