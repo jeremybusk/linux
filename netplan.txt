@@ -1,0 +1,56 @@
+# Simple netplan example.
+# This file is generated from information provided by
+# the datasource.  Changes to it will not persist across an instance.
+# To disable cloud-init's network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    version: 2
+    ethernets:
+        eno1: {}
+        eno2: {}
+        eno3: {}
+        eno4: {}
+    bonds:
+        bond0:
+            interfaces:
+            - eno1
+            - eno2
+            - eno3
+            - eno4
+            parameters:
+                mode: balance-rr
+                mii-monitor-interval: 200
+            dhcp4: no
+            dhcp6: no
+            addresses:
+            - 10.x.x.229/22
+            # - "2001:cafe:face::1/64"
+            gateway4: 10.64.4.1
+            # gateway6: "2001:cafe:face::1"
+            nameservers:
+                addresses:
+                - 8.8.8.8
+                - 8.8.4.4
+                  # - 2001:4860:4860::8888
+                  # - 2001:4860:4860::8844
+                # search: []
+
+    # bridges:
+    #     brvlan20:
+    #         addresses: [ 10.x.x.11/22 ]
+    #         interfaces: [ vlan20 ]
+    #     brvlan21:
+    #         addresses: [ 10.x.x.11/22 ]
+    #         interfaces: [ vlan21 ]
+    #   
+    #   
+    #   vlans:
+    #     vlan20:
+    #         id: 20
+    #         link: bond0
+    #         accept-ra: no
+    #     vlan21:
+    #         id: 21 
+    #         link: bond0
+    #         accept-ra: no
